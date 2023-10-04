@@ -5,6 +5,7 @@ import {
   Layout,
   ProductCard,
   Track,
+  Testimonial,
 } from "../../components";
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <Filter />
       <ProductCard />
       <Track />
+      <Testimonial />
     </Layout>
   );
 };

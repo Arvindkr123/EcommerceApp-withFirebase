@@ -5,4 +5,14 @@ import HeroSection from "./heroSection/HeroSection";
 import Filter from "./filter/Filter";
 import ProductCard from "./productCart/ProductCard";
 import Track from "./track/Track";
-export { Navbar, Footer, Layout, HeroSection, Filter, ProductCard, Track };
+import Testimonial from "./testimonial/Testimonial.jsx";
+export {
+  Navbar,
+  Footer,
+  Layout,
+  HeroSection,
+  Filter,
+  ProductCard,
+  Track,
+  Testimonial,
+};
