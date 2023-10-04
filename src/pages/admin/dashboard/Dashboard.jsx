@@ -52,10 +52,10 @@ const Dashboard = () => {
               </div>
             </div>
 
-            
+
           </div>
-          <DashboardTab />
         </div>
+        <DashboardTab />
       </section>
 
     </Layout>
