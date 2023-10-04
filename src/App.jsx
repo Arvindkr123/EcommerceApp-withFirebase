@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Cart, Home, NoPage, Order, SignUp, Login, ProductInfo, Dashboard } from "./pages";
+import { Cart, Home, NoPage, Order, SignUp, Login, ProductInfo, Dashboard, AddProduct, UpdateProduct } from "./pages";
 
 const App = () => {
   return (
@@ -13,8 +13,10 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/productinfo/:id" element={<ProductInfo />} />
+        <Route path="/addProduct" element={<AddProduct />} />
+        <Route path="/updateProduct" element={<UpdateProduct />} />
         <Route path="/*" element={<NoPage />} />
-      </Routes>
+      </Routes>e
     </BrowserRouter>
   );
 };

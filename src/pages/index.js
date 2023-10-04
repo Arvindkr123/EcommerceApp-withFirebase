@@ -7,7 +7,11 @@ import { NoPage } from "./noPage/NoPage";
 import SignUp from "./registration/SignUp";
 import Login from "./registration/Login";
 import ProductInfo from "./productInfo/ProductInfo.jsx";
+import AddProduct from "./admin/pages/AddProduct";
+import UpdateProduct from "./admin/pages/UpdateProduct";
 export {
+  UpdateProduct,
+  AddProduct,
   Dashboard,
   AllProducts,
   Cart,
