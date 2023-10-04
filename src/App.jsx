@@ -1,12 +1,5 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  BrowserRouter,
-} from "react-router-dom";
-import React, { useContext } from "react";
-import { Cart, Home, NoPage, Order, SignUp, Login } from "./pages";
-import MyContext from "./context/myContext";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Cart, Home, NoPage, Order, SignUp, Login, ProductInfo } from "./pages";
 
 const App = () => {
   return (
@@ -17,6 +10,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/productinfo/:id" element={<ProductInfo />} />
         <Route path="/*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>

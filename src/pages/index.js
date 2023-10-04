@@ -6,4 +6,15 @@ import Order from "./order/Order";
 import { NoPage } from "./noPage/NoPage";
 import SignUp from "./registration/SignUp";
 import Login from "./registration/Login";
-export { Dashboard, AllProducts, Cart, Home, Order, NoPage, SignUp, Login };
+import ProductInfo from "./productInfo/ProductInfo.jsx";
+export {
+  Dashboard,
+  AllProducts,
+  Cart,
+  Home,
+  Order,
+  NoPage,
+  SignUp,
+  Login,
+  ProductInfo,
+};
