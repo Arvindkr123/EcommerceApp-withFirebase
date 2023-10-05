@@ -8,7 +8,11 @@ import Track from "./track/Track";
 import Testimonial from "./testimonial/Testimonial.jsx";
 import Modal from "./modal/Modal";
 import Loader from "./loader/Loader";
+import User from "./protectedRoute/User";
+import Admin from "./protectedRoute/Admin";
 export {
+  User,
+  Admin,
   Loader,
   Modal,
   Navbar,

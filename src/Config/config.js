@@ -5,6 +5,7 @@ const config = {
   storageBucket: String(import.meta.env.VITE_APP_storageBucket),
   messagingSenderId: String(import.meta.env.VITE_APP_messagingSenderId),
   appId: String(import.meta.env.VITE_APP_appId),
+  mainAdmin: import.meta.env.VITE_APP_admin,
 };
 
 export default config;

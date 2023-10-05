@@ -5,10 +5,19 @@ import { BsFillCloudSunFill } from "react-icons/bs";
 import { FiSun } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
 import MyContext from "../../context/myContext";
+import config from "../../Config/config";
 
 const Navbar = () => {
   const { mode, toggleMode } = useContext(MyContext);
   const [open, setOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'));
+  // console.log(user.user.email);
+
+  const logoutHandler = () => {
+    localStorage.clear('user');
+    //console.log("hello")
+    window.location.href = "/login";
+  }
   return (
     <div className="bg-white sticky top-0 z-50 ">
       {/* Mobile menu */}
@@ -69,7 +78,7 @@ const Navbar = () => {
                       Order
                     </Link>
                   </div>
-                  <div className="flow-root">
+                  {user ? <div className="flow-root">
                     <Link
                       to={"/order"}
                       style={{ color: mode === "dark" ? "white" : "" }}
@@ -77,24 +86,28 @@ const Navbar = () => {
                     >
                       Order
                     </Link>
-                  </div>
+                  </div> : ""}
 
                   <div className="flow-root">
-                    <Link
-                      to={"/dashboard"}
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                      style={{ color: mode === "dark" ? "white" : "" }}
-                    >
-                      admin
-                    </Link>
+                    {user?.user?.email === config.mainAdmin ?
+                      <Link
+                        to={"/dashboard"}
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                      >
+                        admin
+                      </Link>
+                      :
+                      ""}
                   </div>
                   <div className="flow-root">
-                    <a
+                    {user ? <a
                       className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
                       style={{ color: mode === "dark" ? "white" : "" }}
+                      onClick={logoutHandler}
                     >
                       Logout
-                    </a>
+                    </a> : ""}
                   </div>
                   <div className="flow-root">
                     <Link
@@ -200,27 +213,27 @@ const Navbar = () => {
                   >
                     All Products
                   </Link>
-                  <Link
+                  {user ? <Link
                     to={"/order"}
                     className="text-sm font-medium text-gray-700 "
                     style={{ color: mode === "dark" ? "white" : "" }}
                   >
                     Order
-                  </Link>
-                  <Link
+                  </Link> : ""}
+                  {user?.user?.email === config.mainAdmin ? <Link
                     to={"/dashboard"}
                     className="text-sm font-medium text-gray-700 "
                     style={{ color: mode === "dark" ? "white" : "" }}
                   >
                     Admin
-                  </Link>
+                  </Link> : ""}
 
-                  <a
+                  {user ? <a onClick={logoutHandler}
                     className="text-sm font-medium text-gray-700 cursor-pointer  "
                     style={{ color: mode === "dark" ? "white" : "" }}
                   >
                     Logout
-                  </a>
+                  </a> : ""}
                 </div>
               </div>
 
