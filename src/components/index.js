@@ -7,7 +7,9 @@ import ProductCard from "./productCart/ProductCard";
 import Track from "./track/Track";
 import Testimonial from "./testimonial/Testimonial.jsx";
 import Modal from "./modal/Modal";
+import Loader from "./loader/Loader";
 export {
+  Loader,
   Modal,
   Navbar,
   Footer,
