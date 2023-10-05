@@ -6,13 +6,17 @@ import { auth, fireDB } from "../../firebase/FirebaseConfig";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { Loader } from "../../components";
 import { toast } from "react-toastify";
+
+
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loading, setLoading } = useContext(MyContext);
-  console.log(loading)
+  //console.log(loading)
   const navigate = useNavigate();
+
+
   const signUpHandler = async () => {
     setLoading(true)
     console.log(loading)
@@ -45,6 +49,8 @@ const SignUp = () => {
       //console.log(loading)
     }
   }
+
+
   return (
     <div className=' flex justify-center items-center h-screen'>
       {loading && <Loader />}
