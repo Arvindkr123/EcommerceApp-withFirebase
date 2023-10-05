@@ -11,22 +11,22 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loading, setLoading } = useContext(MyContext);
+  console.log(loading)
   const navigate = useNavigate();
   const signUpHandler = async () => {
     setLoading(true)
+    console.log(loading)
     if (name === "" || email === "" || password === "") {
       return toast.error("All fields are required")
     }
 
     try {
       const users = await createUserWithEmailAndPassword(auth, email, password);
-
-      // console.log(users)
-
+      //console.log(users)
       const user = {
         name: name,
-        uid: users.user.uid,
-        email: users.user.email,
+        uid: users?.user?.uid,
+        email: users?.user?.email,
         time: Timestamp.now()
       }
       const userRef = collection(fireDB, "users")
@@ -37,10 +37,12 @@ const SignUp = () => {
       setEmail("");
       setPassword("");
       setLoading(false)
+      //console.log(loading)
 
     } catch (error) {
       console.log(error)
       setLoading(false)
+      //console.log(loading)
     }
   }
   return (
