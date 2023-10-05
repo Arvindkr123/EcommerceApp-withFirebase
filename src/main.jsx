@@ -6,13 +6,16 @@ import MyState from "./context/myState.jsx";
 import { store } from "./redux/store.js";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <MyState>
-        <App />
-        <ToastContainer />
+        <BrowserRouter>
+          <App />
+          <ToastContainer />
+        </BrowserRouter>
       </MyState>
     </Provider>
   </React.StrictMode>
