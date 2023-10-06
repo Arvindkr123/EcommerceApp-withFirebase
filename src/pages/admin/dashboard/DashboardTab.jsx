@@ -7,8 +7,9 @@ import { AiFillShopping, AiFillPlusCircle, AiFillDelete } from 'react-icons/ai';
 
 
 const DashboardTab = () => {
-    const { mode } = useContext(MyContext)
+    const { mode, product } = useContext(MyContext)
     const [isOpen, setIsOpen] = useState(false)
+    console.log(product)
 
     function closeModal() {
         setIsOpen(false)
@@ -16,6 +17,10 @@ const DashboardTab = () => {
 
     function openModal() {
         setIsOpen(true)
+    }
+
+    function add() {
+        window.location.href = "/addProduct"
     }
     return (
         <>
@@ -53,7 +58,7 @@ const DashboardTab = () => {
                                     Product Details
                                 </h1>
                                 <div className=" flex justify-end">
-                                    <button
+                                    <button onClick={add}
                                         type="button"
                                         className="focus:outline-none text-white bg-pink-600 shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] border hover:bg-pink-700 outline-0 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" style={{ backgroundColor: mode === 'dark' ? 'rgb(46 49 55)' : '', color: mode === 'dark' ? 'white' : '', }} >
                                         <div className="flex gap-2 items-center">

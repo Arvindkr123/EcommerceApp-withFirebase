@@ -1,6 +1,9 @@
 import React from 'react'
+import { useContext } from 'react'
+import MyContext from '../../../context/myContext'
 
 const AddProduct = () => {
+    const { products, setProducts, addProduct } = useContext(MyContext);
     return (
         <div>
             <div className=' flex justify-center items-center min-h-screen'>
@@ -10,7 +13,10 @@ const AddProduct = () => {
                     </div>
 
                     <div>
-                        <input type="text"
+                        <input
+                            value={products.title}
+                            onChange={(e) => setProducts({ ...products, title: e.target.value })}
+                            type="text"
                             name='title'
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
                             placeholder='Product title'
@@ -18,6 +24,8 @@ const AddProduct = () => {
                     </div>
                     <div>
                         <input type="text"
+                            value={products.price}
+                            onChange={(e) => setProducts({ ...products, price: e.target.value })}
                             name='price'
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
                             placeholder='Product price'
@@ -25,6 +33,9 @@ const AddProduct = () => {
                     </div>
                     <div>
                         <input type="text"
+                            value={products.imageUrl}
+                            onChange={(e) => setProducts({ ...products, imageUrl: e.target.value })}
+
                             name='imageurl'
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
                             placeholder='Product imageUrl'
@@ -32,6 +43,8 @@ const AddProduct = () => {
                     </div>
                     <div>
                         <input type="text"
+                            value={products.category}
+                            onChange={(e) => setProducts({ ...products, category: e.target.value })}
                             name='category'
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
                             placeholder='Product category'
@@ -39,12 +52,15 @@ const AddProduct = () => {
                     </div>
                     <div>
                         <textarea cols="30" rows="10" name='title'
+                            value={products.description}
+                            onChange={(e) => setProducts({ ...products, description: e.target.value })}
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
                             placeholder='Product title'>
                         </textarea>
                     </div>
                     <div className=' flex justify-center mb-3'>
                         <button
+                            onClick={addProduct}
                             className=' bg-yellow-500 w-full text-black font-bold  px-2 py-2 rounded-lg'>
                             Add Product
                         </button>
