@@ -5,9 +5,12 @@ import {
   Timestamp,
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   onSnapshot,
   orderBy,
   query,
+  setDoc,
 } from "firebase/firestore";
 import { fireDB } from "../firebase/FirebaseConfig";
 import { useEffect } from "react";
@@ -85,6 +88,50 @@ const MyState = ({ children }) => {
     }
   }
 
+  const editHandle = (item) => {
+    setProducts(item);
+  }
+
+  //TODO:  update the the product
+  const updateProduct = async () => {
+    setLoading(true);
+    try {
+      await setDoc(doc(fireDB, "products", products.id), products);
+      toast.success("update product successfully")
+      getProductData();
+      setTimeout(() => {
+        window.location.href = "/dashboard"
+      }, 3000);
+      setLoading(false);
+      setProducts({
+        title: "",
+        price: "",
+        imageUrl: "",
+        category: "",
+        description: "",
+      })
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+
+  // delete product from Databases
+  const deleteProduct = async (item) => {
+    try {
+      setLoading(true);
+      await deleteDoc(doc(fireDB, "products", item.id));
+      toast.success("Product deleted successfully")
+      getProductData();
+      setLoading(false);
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+    }
+  }
+
+
+
   useEffect(() => {
     getProductData();
   }, [])
@@ -101,7 +148,7 @@ const MyState = ({ children }) => {
   };
 
   return (
-    <MyContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct }}>
+    <MyContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editHandle, updateProduct, deleteProduct }}>
       {children}
     </MyContext.Provider>
   );
