@@ -4,12 +4,13 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import { MdOutlineProductionQuantityLimits } from 'react-icons/md';
 import { FaUser, FaCartPlus } from 'react-icons/fa';
 import { AiFillShopping, AiFillPlusCircle, AiFillDelete } from 'react-icons/ai';
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 
 const DashboardTab = () => {
     const { mode, product, editHandle, updateProduct, deleteProduct } = useContext(MyContext)
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
     //console.log(product)
 
     function closeModal() {
@@ -21,7 +22,8 @@ const DashboardTab = () => {
     }
 
     function add() {
-        window.location.href = "/addProduct"
+        // window.location.href = "/addProduct"
+        navigate("/addProduct")
     }
     return (
         <>
@@ -133,7 +135,7 @@ const DashboardTab = () => {
                                                                         </div>
                                                                     </Link>
                                                                 </div>
-                                                            </div>  
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>

@@ -3,7 +3,7 @@ import MyContext from "../../context/myContext";
 import Card from "./Card";
 
 const ProductCard = () => {
-  const { mode } = useContext(MyContext);
+  const { mode, product } = useContext(MyContext);
   return (
     <section className="text-gray-600 body-font">
       <div className="container px-5 py-8 md:py-16 mx-auto">
@@ -19,17 +19,11 @@ const ProductCard = () => {
 
         {/* Cards starts here */}
         <div className="flex flex-wrap -m-4">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {
+            product && product.map((item, index) => {
+              return <Card key={index} item={item} />
+            })
+          }
         </div>
       </div>
     </section>
