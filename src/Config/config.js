@@ -6,6 +6,8 @@ const config = {
   messagingSenderId: String(import.meta.env.VITE_APP_messagingSenderId),
   appId: String(import.meta.env.VITE_APP_appId),
   mainAdmin: import.meta.env.VITE_APP_admin,
+  paymentKeyId: String(import.meta.env.VITE_APP_PaymentKeyId),
+  paymentSecretKey: String(import.meta.env.VITE_APP_PaymentSecretKey),
 };
 
 export default config;

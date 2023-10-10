@@ -2,7 +2,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { useState } from "react";
 import { Fragment } from "react";
 
-const Modal = () => {
+const Modal = ({
+  name, address, pincode, phoneNumber, setName, setAddress, setPincode, setPhoneNumber, buyNow
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
@@ -64,6 +66,8 @@ const Modal = () => {
                               <input
                                 type="name"
                                 name="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 id="name"
                                 className=" border outline-0 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100"
                                 required
@@ -80,6 +84,8 @@ const Modal = () => {
                                 type="text"
                                 name="address"
                                 id="address"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
                                 className=" border outline-0 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100"
                                 required
                               />
@@ -95,6 +101,8 @@ const Modal = () => {
                                 type="text"
                                 name="pincode"
                                 id="pincode"
+                                value={pincode}
+                                onChange={(e) => setPincode(e.target.value)}
                                 className=" border outline-0 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100"
                                 required
                               />
@@ -110,15 +118,18 @@ const Modal = () => {
                                 type="text"
                                 name="mobileNumber"
                                 id="mobileNumber"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
                                 className=" border outline-0 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100"
                                 required
                               />
                             </div>
                           </form>
                           <button
-                            onClick={closeModal}
+                            onClick={() => { closeModal(), buyNow() }}
                             type="button"
                             className="focus:outline-none w-full text-white bg-violet-600 hover:last:bg-green-600 hover:bg-violet-800  outline-0 font-medium rounded-lg text-sm px-5 py-2.5 "
+
                           >
                             Order Now
                           </button>

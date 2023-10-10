@@ -4,34 +4,109 @@ import { Layout, Modal } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { removeToCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
+import config from "../../Config/config";
+import { fireDB } from "../../firebase/FirebaseConfig";
 
 const Cart = () => {
-  const [totalAmount, setTotalAmount] = useState(0)
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const { mode } = useContext(MyContext);
-  const cartItem = useSelector(state => state.cart);
+  const cartItem = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const deleteToCart = (item) => {
     dispatch(removeToCart(item));
-    toast.success("Cart item deleted successfully")
-  }
+    toast.success("Cart item deleted successfully");
+  };
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItem))
-  }, [cartItem])
+    localStorage.setItem("cart", JSON.stringify(cartItem));
+  }, [cartItem]);
 
   useEffect(() => {
     let temp = 0;
-    cartItem.forEach(element => {
+    cartItem.forEach((element) => {
       temp = temp + parseInt(element.price);
     });
     setTotalAmount(temp);
-    console.log(totalAmount)
-  }, [cartItem])
+    //console.log(totalAmount)
+  }, [cartItem]);
 
   const shippingAmount = parseInt(100);
   let GrandTotal = shippingAmount + totalAmount;
-  console.log(GrandTotal)
+  //console.log(GrandTotal)
+
+  const buyNow = async () => {
+    // validation
+    if (name === "" || address == "" || pincode == "" || phoneNumber == "") {
+      return toast.error("All fields are required", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+    const addressInfo = {
+      name,
+      address,
+      pincode,
+      phoneNumber,
+      date: new Date().toLocaleString("en-US", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      }),
+    };
+    console.log(addressInfo);
+
+    var options = {
+      key: config.paymentKeyId,
+      key_secret: config.paymentSecretKey,
+      amount: parseInt(GrandTotal * 100),
+      currency: "INR",
+      order_receipt: "order_rcptid_" + name,
+      name: "E-Bharat",
+      description: "for testing purpose",
+      handler: function (response) {
+        // console.log(response)
+        toast.success("Payment Successful");
+        const paymentId = response.razorpay_payment_id;
+        // store in firebase
+        const orderInfo = {
+          cartItem,
+          addressInfo,
+          date: new Date().toLocaleString("en-US", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+          }),
+          email: JSON.parse(localStorage.getItem("user")).user.email,
+          userid: JSON.parse(localStorage.getItem("user")).user.uid,
+          paymentId,
+        };
+
+        try {
+          const result = addDoc(collection(fireDB, "orders"), orderInfo);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    var pay = new window.Razorpay(options);
+    pay.open();
+    console.log(pay);
+  };
 
   return (
     <Layout>
@@ -45,9 +120,10 @@ const Cart = () => {
         <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
         <div className=" mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3 mb-28">
-            {
-              cartItem.map((item, index) => {
-                return <div key={index}
+            {cartItem.map((item, index) => {
+              return (
+                <div
+                  key={index}
                   className="justify-between mb-6 rounded-lg border  drop-shadow-xl bg-white p-6  sm:flex  sm:justify-start"
                   style={{
                     backgroundColor: mode === "dark" ? "rgb(32 33 34)" : "",
@@ -80,7 +156,10 @@ const Cart = () => {
                         ₹ {item.price}
                       </p>
                     </div>
-                    <div onClick={() => deleteToCart(item)} className="cursor-pointer mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
+                    <div
+                      onClick={() => deleteToCart(item)}
+                      className="cursor-pointer mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -98,8 +177,8 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-              })
-            }
+              );
+            })}
           </div>
 
           <div
@@ -148,22 +227,34 @@ const Cart = () => {
                 Total
               </p>
               <div className>
-                {totalAmount > 0 ? <p
-                  className="mb-1 text-lg font-bold"
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                >
-                  ₹ {GrandTotal}
-                </p> : <p
-                  className="mb-1 text-lg font-bold"
-                  style={{ color: mode === "dark" ? "white" : "" }}
-                >
-                  ₹ 0
-                </p>}
+                {totalAmount > 0 ? (
+                  <p
+                    className="mb-1 text-lg font-bold"
+                    style={{ color: mode === "dark" ? "white" : "" }}
+                  >
+                    ₹ {GrandTotal}
+                  </p>
+                ) : (
+                  <p
+                    className="mb-1 text-lg font-bold"
+                    style={{ color: mode === "dark" ? "white" : "" }}
+                  >
+                    ₹ 0
+                  </p>
+                )}
               </div>
             </div>
-            <Modal />
-
-          
+            <Modal
+              name={name}
+              address={address}
+              pincode={pincode}
+              phoneNumber={phoneNumber}
+              setName={setName}
+              setAddress={setAddress}
+              setPincode={setPincode}
+              setPhoneNumber={setPhoneNumber}
+              buyNow={buyNow}
+            />
           </div>
         </div>
       </div>
