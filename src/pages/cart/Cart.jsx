@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MyContext from "../../context/myContext";
 import { Layout, Modal } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,7 @@ import { removeToCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
 
 const Cart = () => {
+  const [totalAmount, setTotalAmount] = useState(0)
   const { mode } = useContext(MyContext);
   const cartItem = useSelector(state => state.cart);
   const dispatch = useDispatch();
@@ -19,10 +20,23 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(cartItem))
   }, [cartItem])
 
+  useEffect(() => {
+    let temp = 0;
+    cartItem.forEach(element => {
+      temp = temp + parseInt(element.price);
+    });
+    setTotalAmount(temp);
+    console.log(totalAmount)
+  }, [cartItem])
+
+  const shippingAmount = parseInt(100);
+  let GrandTotal = shippingAmount + totalAmount;
+  console.log(GrandTotal)
+
   return (
     <Layout>
       <div
-        className="h-screen bg-gray-100 pt-5 "
+        className="bg-gray-100 pt-5 mb-[60%]"
         style={{
           backgroundColor: mode === "dark" ? "#282c34" : "",
           color: mode === "dark" ? "white" : "",
@@ -30,7 +44,7 @@ const Cart = () => {
       >
         <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
         <div className=" mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
-          <div className="rounded-lg md:w-2/3  ">
+          <div className="rounded-lg md:w-2/3 mb-28">
             {
               cartItem.map((item, index) => {
                 return <div key={index}
@@ -106,7 +120,7 @@ const Cart = () => {
                 className="text-gray-700"
                 style={{ color: mode === "dark" ? "white" : "" }}
               >
-                ₹ 100
+                ₹ {totalAmount}
               </p>
             </div>
 
@@ -121,7 +135,7 @@ const Cart = () => {
                 className="text-gray-700"
                 style={{ color: mode === "dark" ? "white" : "" }}
               >
-                ₹20
+                ₹ {shippingAmount}
               </p>
             </div>
 
@@ -134,22 +148,22 @@ const Cart = () => {
                 Total
               </p>
               <div className>
-                <p
+                {totalAmount > 0 ? <p
                   className="mb-1 text-lg font-bold"
                   style={{ color: mode === "dark" ? "white" : "" }}
                 >
-                  ₹ 120
-                </p>
+                  ₹ {GrandTotal}
+                </p> : <p
+                  className="mb-1 text-lg font-bold"
+                  style={{ color: mode === "dark" ? "white" : "" }}
+                >
+                  ₹ 0
+                </p>}
               </div>
             </div>
             <Modal />
 
-            {/* <button
-              type="button"
-              className="w-full  bg-violet-600 hover:bg-violet-500 py-2 text-center rounded-lg text-white font-bold "
-            >
-              Buy Now
-            </button> */}
+          
           </div>
         </div>
       </div>
