@@ -6,6 +6,7 @@ import { removeToCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
 import config from "../../Config/config";
 import { fireDB } from "../../firebase/FirebaseConfig";
+import { addDoc } from "firebase/firestore";
 
 const Cart = () => {
   const [totalAmount, setTotalAmount] = useState(0);
