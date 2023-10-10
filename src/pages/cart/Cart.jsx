@@ -6,7 +6,7 @@ import { removeToCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
 import config from "../../Config/config";
 import { fireDB } from "../../firebase/FirebaseConfig";
-import { addDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 const Cart = () => {
   const [totalAmount, setTotalAmount] = useState(0);
@@ -88,11 +88,12 @@ const Cart = () => {
             day: "2-digit",
             year: "numeric",
           }),
-          email: JSON.parse(localStorage.getItem("user")).user.email,
-          userid: JSON.parse(localStorage.getItem("user")).user.uid,
+          email: JSON.parse(localStorage.getItem("user")).user.email || "",
+          userid: JSON.parse(localStorage.getItem("user")).user.uid || "",
           paymentId,
         };
 
+        //console.log(JSON.parse(localStorage.getItem("user")));
         try {
           const result = addDoc(collection(fireDB, "orders"), orderInfo);
         } catch (error) {
