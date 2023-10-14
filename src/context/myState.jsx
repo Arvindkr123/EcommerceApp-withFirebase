@@ -7,6 +7,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
@@ -92,7 +93,7 @@ const MyState = ({ children }) => {
     setProducts(item);
   }
 
-  //TODO:  update the the product
+  // update the the product
   const updateProduct = async () => {
     setLoading(true);
     try {
@@ -132,9 +133,7 @@ const MyState = ({ children }) => {
 
 
 
-  useEffect(() => {
-    getProductData();
-  }, [])
+
 
 
   const toggleMode = () => {
@@ -147,8 +146,36 @@ const MyState = ({ children }) => {
     }
   };
 
+
+  //**************************************************
+  // Order Related Functions
+  const [order, setOrder] = useState([]);
+  const getOrderData = async () => {
+    setLoading(true);
+    try {
+      const results = await getDocs(collection(fireDB, "orders"))
+      const orderArrays = [];
+      results.forEach((doc) => {
+        orderArrays.push(doc.data());
+        setLoading(false)
+      });
+      setOrder(orderArrays);
+      console.log(orderArrays)
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error)
+    }
+  }
+  // *************************************************
+
+  useEffect(() => {
+    getProductData();
+    getOrderData();
+  }, [])
+
   return (
-    <MyContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editHandle, updateProduct, deleteProduct }}>
+    <MyContext.Provider value={{ order, setOrder, getOrderData, mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editHandle, updateProduct, deleteProduct }}>
       {children}
     </MyContext.Provider>
   );
